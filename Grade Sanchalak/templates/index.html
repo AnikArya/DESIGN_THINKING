@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Sanchalak</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Grade Sanchalak</h1>
+        
+        <!-- Keyword Generation Form -->
+        <h2>Generate Keywords</h2>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".txt,.pdf,.docx">
+            <br>
+            <button type="submit" name="generate_keywords">Generate Keywords</button>
+        </form>
+
+        {% if generated_keywords %}
+        <h3>Generated Keywords:</h3>
+        <p>{{ generated_keywords|join(', ') }}</p>
+        {% endif %}
+
+        <!-- Assignment Checking Form -->
+        <h2>Check Assignments</h2>
+        <form method="post" enctype="multipart/form-data">
+            <input type="text" name="keywords" placeholder="Enter keywords, separated by commas">
+            <input type="file" name="files" accept=".txt,.pdf,.docx" multiple required />
+            <button type="submit" name="check_assignments">Check Assignments</button>
+        </form>
+
+        {% if results %}
+        <h2>Keyword Analysis Results:</h2>
+        <ul>
+            {% for result in results %}
+            <li><strong>File: {{ result.filename }}</strong>
+                <p><strong>Matching Keywords:</strong> {{ result.matching_keywords|join(', ') }}</p>
+                <p><strong>Non-Matching Keywords:</strong> {{ result.non_matching_keywords|join(', ') }}</p>
+                <p><strong>Score:</strong> {{ result.score }}</p>
+                <p><strong>Percentage:</strong> {{ result.percentage }}%</p>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
